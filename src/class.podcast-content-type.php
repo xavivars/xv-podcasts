@@ -25,9 +25,8 @@ class PodcastContentType
         $this->singular = __('Podcast', 'xv-podcasts');
         $this->plural = __('Podcasts', 'xv-podcasts');
 
-        $this->register_custom_post_type();
-        $this->register_custom_taxonomies();
-
+        add_action('init', array($this, 'register_custom_post_type'));
+        add_action('init', array($this, 'register_custom_taxonomies'));
 
         add_filter('manage_' . $this->singular . '_posts_columns', array($this, 'add_columns_to_admin'));
         add_action('manage_' . $this->singular . '_posts_custom_column', array($this, 'custom_columns'), 10, 2);
@@ -85,7 +84,6 @@ class PodcastContentType
 
     public function register_custom_post_type()
     {
-
         $labels = $this->get_ctp_labels(__('Podcasts', 'xv-podcasts'));
 
         $args = array(
@@ -113,7 +111,7 @@ class PodcastContentType
         );
 
         register_post_type('podcast', $args);
-        add_filter('post_type_link', array($this, 'podcast_programa_link'), 10, 2);
+        add_filter('post_type_link', array( $this, 'podcast_programa_link'), 10, 2);
     }
 
     protected function register_custom_taxonomies()
@@ -127,7 +125,7 @@ class PodcastContentType
         $labels = $this->get_taxonomy_labels(
             __('Podcasts programs', 'xv-podcasts'),
             __('Podcast program', 'xv-podcasts'),
-            __('Podcast program', 'xv-podcasts'),
+            __('Podcast program', 'xv-podcasts')
         );
 
         $args = array(
