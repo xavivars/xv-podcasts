@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     version="2.0">
+    <channel>
+        <title>{{ podcast.title }}</title>
+        <link>{{ podcast.link }}</link>
+        <language>{{ podcast.language }}</language>
+        <copyright>{{ podcast.copyright }}</copyright>
+        <itunes:author>{{ podcast.author }}</itunes:author>
+        <description>
+            <content:encoded>
+                <![CDATA[{{ podcast.description }}]]>
+            </content:encoded>
+        </description>
+        <itunes:type>{{ podcast.itunes_type }}</itunes:type>
+        <itunes:owner>
+            <itunes:name>{{ podcast.owner.name }}</itunes:name>
+            <itunes:email>{{ podcast.owner.email }}</itunes:email>
+        </itunes:owner>
+        <itunes:image
+                href="{{ podcast.image }}"
+        />
+        {% for c in podcast.categories %}
+        <itunes:category text="{{ c.category }}">
+            {% for subcategory in c.subcategories %}
+            <itunes:category text="{{ subcategory }}"/>
+            {% endfor %}
+        </itunes:category>
+        {% endfor %}
+        <itunes:explicit>{{ podcast.explicit }}</itunes:explicit>
+        {% for episode in podcast.episodes %}
+        <item>
+            <itunes:episodeType>{{ episode.episode_type }}</itunes:episodeType>
+            <itunes:episode>{{ episode.episode }}</itunes:episode>
+            <itunes:season>{{ episode.season }}</itunes:season>
+            <itunes:title>{{ episode.title }}</itunes:title>
+            <description>
+                <content:encoded>
+                    <![CDATA[{{ episode.description }}]]>
+                </content:encoded>
+            </description>
+            <itunes:image href="{{ episode.image}}" />
+            <link>{{ episode.link }}</link>
+            <enclosure
+                    length="{{ enclosure.filesize }}"
+                    type="{{ enclosure.mime }}"
+                    url="{{ enclosure.url }}"
+            />
+            <guid>{{ episode.guid }}</guid>
+            <pubDate>{{ episode.date }}</pubDate>
+            <itunes:duration>{{ episode.duration }}</itunes:duration>
+            <itunes:explicit>{{ episode.explicit }}</itunes:explicit>
+        </item>
+        {% endfor %}
+    </channel>
+</rss>
