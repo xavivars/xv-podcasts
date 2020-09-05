@@ -35,6 +35,15 @@ class PodcastContentType
         add_action( 'admin_init', array( $this, 'validate_dependencies' ));
     }
 
+    public function register_custom_post_type()
+    {
+        $this->register_podcast_post_type();
+    }
+
+    public function register_custom_taxonomies()
+    {
+        $this->register_podcast_programa();
+    }
 
     public function validate_dependencies() {
         if ( is_admin() && (!function_exists('get_field') || !class_exists('Timber'))) {
@@ -82,7 +91,7 @@ class PodcastContentType
         );
     }
 
-    public function register_custom_post_type()
+    private function register_podcast_post_type()
     {
         $labels = $this->get_ctp_labels(__('Podcasts', 'xv-podcasts'));
 
@@ -114,14 +123,8 @@ class PodcastContentType
         add_filter('post_type_link', array( $this, 'podcast_programa_link'), 10, 2);
     }
 
-    protected function register_custom_taxonomies()
-    {
-        $this->register_podcast_programa();
-    }
-
     private function register_podcast_programa()
     {
-
         $labels = $this->get_taxonomy_labels(
             __('Podcasts programs', 'xv-podcasts'),
             __('Podcast program', 'xv-podcasts'),
