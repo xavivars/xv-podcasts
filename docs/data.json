@@ -1,0 +1,43 @@
+{
+  "podcast": {
+    "title": "",
+    "link": "",
+    "language": "",
+    "copyright": "",
+    "author": "",
+    "description": "", /* HTML */
+    "itunes_type": "", /* episodic/serial */
+    "owner": { // admin purposes
+      "name": "",
+      "email": ""
+    },
+    "image": "", // URL
+    "categories": [ // see https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12
+      {
+        "category": "",
+        "subcategories": ""
+      }
+    ],
+    "explicit": false, // bool
+    "episodes": [
+      {
+        "episode_type": "", // full, trailer, bonus
+        "episode": "",
+        "season": "",
+        "title": "",
+        "description": "",
+        "image": "",
+        "link": "",  // URL
+        "enclosure": {
+          "filesize": 0, // bytes
+          "mime": "",
+          "url": ""
+        },
+        "guid": "",
+        "date": "", // RFC 2822
+        "duration": 0, // seconds
+        "explicit": false // bool
+      }
+    ]
+  }
+}
