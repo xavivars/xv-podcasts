@@ -25,8 +25,8 @@ class PodcastContentType
         $this->singular = __('Podcast', 'xv-podcasts');
         $this->plural = __('Podcasts', 'xv-podcasts');
 
-        add_action('init', array($this, 'register_custom_post_type'));
         add_action('init', array($this, 'register_custom_taxonomies'));
+        add_action('init', array($this, 'register_custom_post_type'));
 
         add_filter('manage_' . $this->singular . '_posts_columns', array($this, 'add_columns_to_admin'));
         add_action('manage_' . $this->singular . '_posts_custom_column', array($this, 'custom_columns'), 10, 2);
