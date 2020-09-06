@@ -16,7 +16,7 @@ class PodcastModel
     }
 
     public function valid() {
-        return $this->_term == $this->_program;
+        return $this->_term->slug == $this->_program;
     }
 
     public function episodes() {
@@ -24,7 +24,11 @@ class PodcastModel
     }
 
     public function title() {
-        $this->_term->title;
+        $this->_term->name;
+    }
+
+    public function language() {
+        return get_locale();
     }
 
     public function description() {
