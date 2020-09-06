@@ -42,10 +42,7 @@ class PodcastFeed
         header('X-Content-Type-Options: nosniff');
         header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 
-        var_dump($model);
-        var_dump(new TimberPost());
-        exit;
-        // Timber::render(XV_PODCASTS_PATH . '/templates/rss.twig', array('podcast' => $model));
+        Timber::render(XV_PODCASTS_PATH . '/templates/rss.twig', array('podcast' => $model));
     }
 
     public function in_podcast_category()
