@@ -34,6 +34,53 @@ class PodcastModel
     public function description() {
         return $this->_term->description;
     }
+    public function link() {
+        return $this->_term->link();
+    }
+
+    public function copyright() {
+        return $this->_term->copyright;
+    }
+
+    public function author() {
+        return $this->_term->author;
+    }
+
+    public function owner() {
+        return array(
+            'name' => $this->_term->owner_name,
+            'email' => $this->_term->owner_email
+        );
+    }
+
+    public function itunes_type() {
+        return $this->_term->itunestype;
+    }
+
+    public function explicit() {
+        return $this->_term->explicit ? 'true' : 'false';
+    }
+
+    public function image() {
+        return $this->_term->image['url'];
+    }
+
+    public function categories() {
+        $array = $this->_term->categories;
+        sort($array);
+
+        $c = [];
+        foreach($array as $e) {
+            $s = explode(' | ', $e);
+            if(!array_key_exists($s[0], $c)) {
+                $c[$s[0]] = ['category'=> $s[0], 'subcategories'=>[]];
+            }
+            if(count($s)>1) {
+                $c[$s[0]]['subcategories'][] = $s[1];
+            }
+        }
+        return $c;
+    }
 }
 
 /*
