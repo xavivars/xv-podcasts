@@ -2,6 +2,7 @@
 /**
  * @package XVPodcasts
  */
+include(XV_PODCASTS_PATH . 'src/class.podcast-model.php');
 
 /**
  * Class PodcastFeed
@@ -29,8 +30,7 @@ class PodcastFeed
             exit;
         }
 
-        include(XV_PODCASTS_PATH . 'src/class.podcast-model.php');
-        $model = new PodcastModel(get_query_var('podcast-program'));
+        $model = new PodcastModel(get_query_var('podcast-programa'));
 
         if (!$model->valid()) {
             include(get_query_template('404'));

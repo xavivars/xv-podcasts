@@ -5,21 +5,26 @@
  *
  * Represents the model of the podcast
  */
-class PodcastModel extends TimberTerm
+class PodcastModel
 {
     private $_program;
 
     public function __construct($program)
     {
         $this->_program = $program;
+        $this->_term = TimberTerm();
     }
 
     public function valid() {
-        return true;
+        return $this->_term == $this->_program;
     }
 
     public function episodes() {
         return $this->post(-1);
+    }
+
+    public function title() {
+        $this->_term->title;
     }
 }
 
