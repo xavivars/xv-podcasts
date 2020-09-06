@@ -22,11 +22,11 @@
                 href="{{ podcast.image }}"
         />
         {% for c in podcast.categories %}
-        <itunes:category text="{{ c.category }}">
-            {% for subcategory in c.subcategories %}
-            <itunes:category text="{{ subcategory }}"/>
-            {% endfor %}
-        </itunes:category>
+            <itunes:category text="{{ c.category }}">
+                {% for subcategory in c.subcategories %}
+                    <itunes:category text="{{ subcategory }}" />
+                {% endfor %}
+            </itunes:category>
         {% endfor %}
         <itunes:explicit>{{ podcast.explicit }}</itunes:explicit>
         {% for episode in podcast.episodes %}
