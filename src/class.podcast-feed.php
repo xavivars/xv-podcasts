@@ -3,8 +3,6 @@
  * @package XVPodcasts
  */
 
-include(XV_PODCASTS_PATH . 'src/class.podcast-model.php');
-
 /**
  * Class PodcastFeed
  *
@@ -31,6 +29,7 @@ class PodcastFeed
             exit;
         }
 
+        include(XV_PODCASTS_PATH . 'src/class.podcast-model.php');
         $model = new PodcastModel(get_query_var('podcast-program'));
 
         if (!$model->valid()) {
@@ -42,12 +41,12 @@ class PodcastFeed
         header('X-Content-Type-Options: nosniff');
         header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
 
-        Timber::render(XV_PODCASTS_PATH . '/templates/rss.twig', array('podcast' => $model));
+        Timber::render(XV_PODCASTS_PATH . '/templates/podcast.twig', array('podcast' => $model));
     }
 
     public function in_podcast_category()
     {
-        $podcast_category = get_query_var('podcast-program');
+        $podcast_category = get_query_var('podcast-programa');
         return $podcast_category && is_archive();
     }
 }
