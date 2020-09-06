@@ -5,7 +5,7 @@
  *
  * Represents the model of the podcast
  */
-class PodcastModel
+class PodcastModel extends TimberTerm
 {
     private $_program;
 
@@ -18,6 +18,9 @@ class PodcastModel
         return true;
     }
 
+    public function episodes() {
+        return $this->post(-1);
+    }
 }
 
 /*
