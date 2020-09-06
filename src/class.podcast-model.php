@@ -14,6 +14,9 @@ class PodcastModel
         $this->_program = $program;
     }
 
+    public function valid() {
+        return true;
+    }
 
 }
 
