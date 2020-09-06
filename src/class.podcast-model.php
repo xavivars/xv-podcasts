@@ -24,7 +24,7 @@ class PodcastModel
     }
 
     public function title() {
-        $this->_term->name;
+        return $this->_term->name;
     }
 
     public function language() {
@@ -32,7 +32,7 @@ class PodcastModel
     }
 
     public function description() {
-        $this->_term->description;
+        return $this->_term->description;
     }
 }
 
