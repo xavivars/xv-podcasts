@@ -9,10 +9,10 @@ class PodcastModel
 {
     private $_program;
 
-    public function __construct($program)
+    public function __construct($program, $term)
     {
         $this->_program = $program;
-        $this->_term = TimberTerm();
+        $this->_term = $term;
     }
 
     public function valid() {
@@ -20,11 +20,15 @@ class PodcastModel
     }
 
     public function episodes() {
-        return $this->post(-1);
+        return $this->_term->post(-1);
     }
 
     public function title() {
         $this->_term->title;
+    }
+
+    public function description() {
+        $this->_term->description;
     }
 }
 
