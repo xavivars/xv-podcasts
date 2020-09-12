@@ -19,10 +19,6 @@ class PodcastModel
         return $this->_term->slug == $this->_program;
     }
 
-    public function episodes() {
-        return $this->_term->post(-1);
-    }
-
     public function title() {
         return $this->_term->name;
     }
@@ -80,6 +76,10 @@ class PodcastModel
             }
         }
         return $c;
+    }
+
+    public function episodes() {
+        return $this->_term->get_posts(-1);
     }
 }
 
