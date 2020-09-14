@@ -15,5 +15,9 @@ define( 'XV_PODCASTS_PATH', plugin_dir_path( __FILE__ ) );
 include( XV_PODCASTS_PATH . 'src/class.podcast-content-type.php' );
 include( XV_PODCASTS_PATH . 'src/class.podcast-feed.php' );
 
+@ini_set( 'upload_max_size' , '64M' );
+@ini_set( 'post_max_size', '64M');
+@ini_set( 'max_execution_time', '300' );
+
 new PodcastContentType();
 new PodcastFeed();
