@@ -1,5 +1,7 @@
 <?php
 
+include(XV_PODCASTS_PATH . 'src/class.episode-model.php');
+
 /**
  * Class PodcastModel
  *
@@ -79,7 +81,13 @@ class PodcastModel
     }
 
     public function episodes() {
-        return $this->_term->get_posts(-1);
+        $all_posts = $this->_term->get_posts(-1, 'EpisodeModel');
+        $episodes = [];
+        foreach($all_posts as $p) {
+            $episodes[] = new EpisodeModel($p);
+        }
+
+        return $episodes;
     }
 }
 

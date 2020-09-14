@@ -55,8 +55,8 @@
         "id": ""
       },
       "choices": {
-        "episodic": "episodic: Episòdic (normal)",
-        "serial": "serial: Serial (història, de vell a nou)"
+        "episodic": "Episòdic (normal)",
+        "serial": "Serial (història, de vell a nou)"
       },
       "default_value": "episodic",
       "allow_null": 0,
