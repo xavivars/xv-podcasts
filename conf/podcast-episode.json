@@ -17,9 +17,9 @@
                 "id": ""
             },
             "choices": {
-                "full: Episodi complet": "full: Episodi complet",
-                "trailer": "trailer",
-                "bonus": "bonus"
+                "full": "Episodi complet",
+                "trailer": "Trailer",
+                "bonus": "Bonus"
             },
             "default_value": false,
             "allow_null": 0,

@@ -50,7 +50,9 @@
      inkscape:label="xv"
      transform="matrix(1.3333333,0,0,-1.3333333,0,793.70667)"><g
        id="g923"
-       transform="translate(-0.00101388,76.452639)"><g
+       transform="translate(-0.00101388,76.452639)"
+       inkscape:export-xdpi="128"
+       inkscape:export-ydpi="128"><g
          transform="matrix(0.32303023,0,0,-0.32303023,447.66891,381.66889)"
          id="g889"><g
            id="g903"><path
@@ -103,4 +105,6 @@
        x="167.77222"
        y="-550.81281"
        transform="scale(1,-1)"
-       ry="0.15099682" /></g></svg>
+       ry="0.15099682"
+       inkscape:export-xdpi="128"
+       inkscape:export-ydpi="128" /></g></svg>
