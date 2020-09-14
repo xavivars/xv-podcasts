@@ -33,6 +33,13 @@ class PodcastContentType
 
         add_filter( 'acf/settings/load_json', array( $this, 'load_acf_fields' ) );
         add_action( 'admin_init', array( $this, 'validate_dependencies' ));
+
+        add_filter( 'upload_size_limit', array($this, 'filter_site_upload_size_limit'), 20 );
+    }
+
+    public function filter_site_upload_size_limit( $size ) {
+        // 10 MB.
+        return 10 * 1024 * 1024;
     }
 
     public function register_custom_post_type()

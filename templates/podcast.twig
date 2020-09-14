@@ -43,9 +43,9 @@
             <itunes:image href="{{ episode.image}}" />
             <link>{{ episode.link }}</link>
             <enclosure
-                    length="{{ enclosure.filesize }}"
-                    type="{{ enclosure.mime }}"
-                    url="{{ enclosure.url }}"
+                    length="{{ episode.enclosure.filesize }}"
+                    type="{{ episode.enclosure.mime }}"
+                    url="{{ episode.enclosure.url }}"
             />
             <guid>{{ episode.guid }}</guid>
             <pubDate>{{ episode.date }}</pubDate>
