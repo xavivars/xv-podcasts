@@ -45,4 +45,13 @@ class EpisodeModel
     public function guid() {
         return $this->_post->guid;
     }
+
+    public function enclosure() {
+        var_dump($this->_post->enclosure);
+        return array(
+            'filesize' => 213,
+            'mime' => '',
+            'url' => ''
+        );
+    }
 }

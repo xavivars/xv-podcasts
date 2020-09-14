@@ -41,7 +41,7 @@ class PodcastFeed
 
         header('X-Content-Type-Options: nosniff');
         header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
-        var_dump($model->title(), $model->description());
+
         Timber::render(XV_PODCASTS_PATH . '/templates/podcast.twig', array('podcast' => $model));
     }
 
