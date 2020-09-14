@@ -100,6 +100,7 @@ class PodcastContentType
             'description' => __('Podcasts', 'xv-podcasts'),
             'labels' => $labels,
             'hierarchical' => false,
+            'supports' => ['thumbnail', 'comments'],
             'public' => true,
             'show_ui' => true,
             'show_in_menu' => true,
