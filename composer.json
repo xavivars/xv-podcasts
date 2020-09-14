@@ -1,0 +1,6 @@
+{
+  "name": "xavivars/xv-podcasts",
+  "type": "wordpress-plugin",
+  "description": "A very simple podcast plugin.",
+  "license": "GPL-2.0-or-later"
+}
