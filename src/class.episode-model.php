@@ -47,11 +47,24 @@ class EpisodeModel
     }
 
     public function enclosure() {
-        var_dump($this->_post->enclosure);
+        $enclosure = $this->_post->get_field('enclosure');
         return array(
-            'filesize' => 213,
-            'mime' => '',
-            'url' => ''
+            'filesize' => $enclosure['filesize'],
+            'mime' => $enclosure['mime_type'],
+            'url' => $enclosure['url']
         );
+    }
+
+    public function date() {
+        $format = "D, d M Y H:i:s O";
+        return $this->_post->date($format);
+    }
+
+    public function duration() {
+        return $this->_post->duration;
+    }
+
+    public function explicit() {
+        return $this->_post->explicit ? 'true' : 'false';
     }
 }
