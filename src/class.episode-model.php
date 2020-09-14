@@ -15,7 +15,7 @@ class EpisodeModel
     }
 
     public function type() {
-        return $this->_post->episodetype;
+        return $this->_post->episode_type;
     }
 
     public function number() {
