@@ -81,7 +81,7 @@ class PodcastModel
     }
 
     public function episodes() {
-        $all_posts = $this->_term->get_posts(-1, 'EpisodeModel');
+        $all_posts = $this->_term->get_posts(-1);
         $episodes = [];
         foreach($all_posts as $p) {
             $episodes[] = new EpisodeModel($p);
