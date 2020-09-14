@@ -35,7 +35,7 @@ class EpisodeModel
     }
 
     public function image() {
-        var_dump($this->_post->image);
+        return $this->_post->thumbnail->src;
     }
 
     public function link() {
