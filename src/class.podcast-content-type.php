@@ -38,8 +38,12 @@ class XVPodcastContentType
     }
 
     public function filter_site_upload_size_limit( $size ) {
-        // 10 MB.
-        return 10 * 1024 * 1024;
+        // 100 MB.
+	$newSize = 100 * 1024 * 1024;
+        if($size<$newSize) {
+            return $newSize;
+	}
+	return $size;
     }
 
     public function register_custom_post_type()
