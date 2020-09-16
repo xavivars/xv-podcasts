@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Class EpisodeModel
+ * Class XVEpisodeModel
  *
  * Represents the model of a single episode
  */
-class EpisodeModel
+class XVEpisodeModel
 {
     private $_post;
 

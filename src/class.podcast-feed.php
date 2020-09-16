@@ -31,7 +31,7 @@ class PodcastFeed
         }
 
         $term = new TimberTerm();
-        $model = new PodcastModel(get_query_var('podcast-programa'), $term);
+        $model = new XVPodcastModel(get_query_var('podcast-programa'), $term);
 
         if (!$model->valid()) {
             include(get_query_template('404'));

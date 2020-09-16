@@ -3,11 +3,11 @@
 include(XV_PODCASTS_PATH . 'src/class.episode-model.php');
 
 /**
- * Class PodcastModel
+ * Class XVPodcastModel
  *
  * Represents the model of the podcast
  */
-class PodcastModel
+class XVPodcastModel
 {
     private $_program;
 
@@ -84,31 +84,9 @@ class PodcastModel
         $all_posts = $this->_term->get_posts(-1);
         $episodes = [];
         foreach($all_posts as $p) {
-            $episodes[] = new EpisodeModel($p);
+            $episodes[] = new XVEpisodeModel($p);
         }
 
         return $episodes;
     }
 }
-
-/*
- * "title": "",
-    "link": "",
-    "language": "",
-    "copyright": "",
-    "author": "",
-    "description": "",
-"itunes_type": "",
-    "owner": { // admin purposes
-    "name": "",
-      "email": ""
-    },
-    "image": "", // URL
-    "categories": [ // see https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12
-      {
-          "category": "",
-        "subcategories": ""
-      }
-    ],
-    "explicit": false, // bool
- */

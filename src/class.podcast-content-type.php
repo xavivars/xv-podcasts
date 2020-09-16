@@ -4,11 +4,11 @@
  */
 
 /**
- * Class PodcastContentType
+ * Class XVPodcastContentType
  *
  * Registers the Podcast post type & taxonomies
  */
-class PodcastContentType
+class XVPodcastContentType
 {
     /**
      * @var string
