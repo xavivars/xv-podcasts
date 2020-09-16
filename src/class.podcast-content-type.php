@@ -107,7 +107,7 @@ class XVPodcastContentType
             'description' => __('Podcasts', 'xv-podcasts'),
             'labels' => $labels,
             'hierarchical' => false,
-            'supports' => ['thumbnail', 'comments'],
+            'supports' => ['title', 'editor', 'revisions', 'thumbnail', 'comments'],
             'public' => true,
             'show_ui' => true,
             'show_in_menu' => true,
