@@ -63,6 +63,10 @@ class XVPodcastModel
         return $this->_term->image['url'];
     }
 
+    public function image_id() {
+        return $this->_term->image['url'];
+    }
+
     public function categories() {
         $array = $this->_term->categories;
         sort($array);
