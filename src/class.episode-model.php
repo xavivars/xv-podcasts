@@ -56,8 +56,9 @@ class XVEpisodeModel
     }
 
     public function date() {
-        $format = "D, d M Y H:i:s O";
-        return $this->_post->date($format);
+        $timestamp = $this->_post->date('U');
+
+        return date(\DateTime::RSS, $timestamp);
     }
 
     public function duration() {
