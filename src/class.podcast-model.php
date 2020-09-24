@@ -32,6 +32,11 @@ class XVPodcastModel
     public function description() {
         return $this->_term->description;
     }
+
+    public function short_description() {
+        return $this->_term->short_description();
+    }
+
     public function link() {
         return $this->_term->link();
     }
