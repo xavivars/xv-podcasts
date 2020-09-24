@@ -9,9 +9,7 @@
         <copyright>{{ podcast.copyright }}</copyright>
         <itunes:author>{{ podcast.author }}</itunes:author>
         <description>
-            <content:encoded>
-                <![CDATA[{{ podcast.description }}]]>
-            </content:encoded>
+            <![CDATA[{{ podcast.description }}]]>
         </description>
         <itunes:type>{{ podcast.itunes_type }}</itunes:type>
         <itunes:owner>
@@ -36,9 +34,7 @@
             <itunes:season>{{ episode.season }}</itunes:season>
             <itunes:title>{{ episode.title }}</itunes:title>
             <description>
-                <content:encoded>
-                    <![CDATA[{{ episode.description }}]]>
-                </content:encoded>
+                <![CDATA[{{ episode.description }}]]>
             </description>
             <itunes:image href="{{ episode.image}}" />
             <link>{{ episode.link }}</link>
