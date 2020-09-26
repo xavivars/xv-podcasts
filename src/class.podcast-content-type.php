@@ -34,7 +34,53 @@ class XVPodcastContentType
         add_filter( 'acf/settings/load_json', array( $this, 'load_acf_fields' ) );
         add_action( 'admin_init', array( $this, 'validate_dependencies' ));
 
+        add_action( 'init', array($this, 'add_download_path'));
+        add_filter( 'query_vars',    array( $this, 'add_download_query_var' ) );
+        add_action( 'pre_get_posts',   array( $this, 'dispatch_download_path' ), 1 );
+
+
         add_filter( 'upload_size_limit', array($this, 'filter_site_upload_size_limit'), 20 );
+    }
+
+    public function add_download_path()
+    {
+        add_rewrite_rule("^podcast-download/", 'index.php?podcast_download=1', 'top');
+    }
+
+    public function add_download_query_var( $qv ) {
+        $qv[] = 'xv_download_path';
+        return $qv;
+    }
+
+    public function dispatch_download_path( $query ) {
+
+        if ( ! $query->is_main_query() ) {
+            return;
+        }
+
+        if ( get_query_var( 'xv_download_path' ) ) {
+
+            remove_action( 'parse_query',   array( $this, 'dispatch_download_path' ) );
+
+            preg_match('/podcast-download/(\d+)/[\w-]+\.mp3/', $_SERVER['REQUEST_URI'], $matches, PREG_OFFSET_CAPTURE);
+
+            if( $matches[1] ) {
+
+                $id = $matches[1];
+
+                $enclosure = get_field('enclosure', $id);
+
+                if($enclosure) {
+
+                    var_dump($enclosure);
+                    exit;
+                }
+            }
+
+            $query->set_404();
+            status_header( 404 );
+            return;
+        }
     }
 
     public function filter_site_upload_size_limit( $size ) {
