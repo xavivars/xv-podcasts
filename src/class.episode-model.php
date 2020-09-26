@@ -51,8 +51,14 @@ class XVEpisodeModel
         return array(
             'filesize' => $enclosure['filesize'],
             'mime' => $enclosure['mime_type'],
-            'url' => $enclosure['url']
+            'url' => $this->enclosure_url($this->_post->id, $this->_post->slug, $enclosure['url'])
         );
+    }
+
+    private function enclosure_url($id, $slug, $url) {
+        $should_rewrite = apply_filters('xv_podcasts_log_file', false);
+
+        return $should_rewrite ? home_url("podcasts-download/$id/$slug.mp3") : $url;
     }
 
     public function date() {

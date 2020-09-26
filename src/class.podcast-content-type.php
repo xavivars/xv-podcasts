@@ -79,7 +79,7 @@ class XVPodcastContentType
                 var_dump($enclosure);
                 var_dump(get_query_var(XV_PODCAST_FILENAME));
 
-                $log = apply_filters('xv_podcasts_log', false);
+                $log = apply_filters('xv_podcasts_log_file', false);
 
                 if ($log) {
                     $entry = $this->get_log_entry(
@@ -88,11 +88,12 @@ class XVPodcastContentType
                         $enclosure['url']
                     );
 
-                    file_put_contents($log, json_encode($entry), FILE_APPEND | LOCK_EX);
+                    $entry = apply_filters('xv_podcasts_log_fields', $entry);
+
+                    file_put_contents($log, json_encode($entry) . "\n", FILE_APPEND | LOCK_EX);
                 }
 
                 header("Location: " . $enclosure['url'], TRUE, 302);
-
                 exit;
             }
 
@@ -110,13 +111,6 @@ class XVPodcastContentType
             'podcast_id' => $id,
             'podcast_filename' => $filename,
             'podcast_url' => $url,
-            'ip' => $_SERVER['HTTP_X_REAL_IP'],
-            'accept' => $_SERVER['HTTP_ACCEPT'],
-            'encoding' => $_SERVER['HTTP_ACCEPT_ENCODING'],
-            'charset' => $_SERVER['HTTP_ACCEPT_CHARSET'],
-            'language' => $_SERVER['HTTP_ACCEPT_LANGUAGE'],
-            'referer' => $_SERVER['HTTP_REFERER'],
-            'ua' => $_SERVER['HTTP_USER_AGENT'],
             'request' => $_SERVER['REQUEST_URI']
         ];
     }
