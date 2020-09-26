@@ -8,6 +8,9 @@
  *
  * Registers the Podcast post type & taxonomies
  */
+
+define('XV_PODCAST_DOWNLOAD_ID', 'xv_podcast_download');
+
 class XVPodcastContentType
 {
     /**
@@ -44,11 +47,15 @@ class XVPodcastContentType
 
     public function add_download_path()
     {
-        add_rewrite_rule("^podcast-download/([0-9]+)/[a-z0-9-]+\.mp3", 'index.php?podcast_download=$matches[1]', 'top');
+        add_rewrite_rule(
+                "^podcasts-download/([0-9]+)/[a-z0-9-]+\.mp3",
+                'index.php?'.XV_PODCAST_DOWNLOAD_ID.'=$matches[1]',
+                'top'
+        );
     }
 
     public function add_download_query_var( $qv ) {
-        $qv[] = 'xv_download_path';
+        $qv[] = XV_PODCAST_DOWNLOAD_ID;
         return $qv;
     }
 
@@ -58,7 +65,7 @@ class XVPodcastContentType
             return;
         }
 
-        $xv_download_path = get_query_var( 'xv_download_path' );
+        $xv_download_path = get_query_var( XV_PODCAST_DOWNLOAD_ID );
 
         if ( $xv_download_path ) {
 
