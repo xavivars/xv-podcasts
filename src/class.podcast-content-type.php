@@ -44,7 +44,7 @@ class XVPodcastContentType
 
     public function add_download_path()
     {
-        add_rewrite_rule("^podcast-download/", 'index.php?podcast_download=1', 'top');
+        add_rewrite_rule("^podcast-download/([0-9]+)/[a-z0-9-]+\.mp3", 'index.php?podcast_download=$matches[1]', 'top');
     }
 
     public function add_download_query_var( $qv ) {
@@ -58,23 +58,16 @@ class XVPodcastContentType
             return;
         }
 
-        if ( get_query_var( 'xv_download_path' ) ) {
+        $xv_download_path = get_query_var( 'xv_download_path' );
 
-            remove_action( 'parse_query',   array( $this, 'dispatch_download_path' ) );
+        if ( $xv_download_path ) {
 
-            preg_match('/podcast-download/(\d+)/[\w-]+\.mp3/', $_SERVER['REQUEST_URI'], $matches, PREG_OFFSET_CAPTURE);
+            $enclosure = get_field('enclosure', $xv_download_path );
 
-            if( $matches[1] ) {
+            if($enclosure) {
 
-                $id = $matches[1];
-
-                $enclosure = get_field('enclosure', $id);
-
-                if($enclosure) {
-
-                    var_dump($enclosure);
-                    exit;
-                }
+                var_dump($enclosure);
+                exit;
             }
 
             $query->set_404();
