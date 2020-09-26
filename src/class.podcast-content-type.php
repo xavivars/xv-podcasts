@@ -8,6 +8,10 @@
  *
  * Registers the Podcast post type & taxonomies
  */
+
+define('XV_PODCAST_DOWNLOAD_ID', 'xv_podcast_download');
+define('XV_PODCAST_FILENAME', 'xv_podcast_filename');
+
 class XVPodcastContentType
 {
     /**
@@ -31,75 +35,99 @@ class XVPodcastContentType
         add_filter('manage_' . $this->singular . '_posts_columns', array($this, 'add_columns_to_admin'));
         add_action('manage_' . $this->singular . '_posts_custom_column', array($this, 'custom_columns'), 10, 2);
 
-        add_filter( 'acf/settings/load_json', array( $this, 'load_acf_fields' ) );
-        add_action( 'admin_init', array( $this, 'validate_dependencies' ));
+        add_filter('acf/settings/load_json', array($this, 'load_acf_fields'));
+        add_action('admin_init', array($this, 'validate_dependencies'));
 
-        add_filter( 'upload_size_limit', array($this, 'filter_site_upload_size_limit'), 20 );
+        add_action('init', array($this, 'add_download_path'));
+        add_filter('query_vars', array($this, 'add_download_query_var'));
+        add_action('pre_get_posts', array($this, 'dispatch_download_path'), 1);
+
+
+        add_filter('upload_size_limit', array($this, 'filter_site_upload_size_limit'), 20);
     }
 
-    public function filter_site_upload_size_limit( $size ) {
+    public function add_download_path()
+    {
+        add_rewrite_rule(
+            '^podcasts-download/([0-9]+)/([a-z0-9-]+)\.mp3$',
+            'index.php?' . XV_PODCAST_DOWNLOAD_ID . '=$matches[1]&' . XV_PODCAST_FILENAME . '=$matches[2]',
+            'top'
+        );
+    }
+
+    public function add_download_query_var($qv)
+    {
+        $qv[] = XV_PODCAST_DOWNLOAD_ID;
+        $qv[] = XV_PODCAST_FILENAME;
+        return $qv;
+    }
+
+    public function dispatch_download_path($query)
+    {
+
+        if (!$query->is_main_query()) {
+            return;
+        }
+
+        $xv_post_id = get_query_var(XV_PODCAST_DOWNLOAD_ID);
+
+        if ($xv_post_id) {
+
+            $enclosure = get_field('enclosure', $xv_post_id);
+
+            if ($enclosure) {
+                var_dump($enclosure);
+                var_dump(get_query_var(XV_PODCAST_FILENAME));
+
+                $log = apply_filters('xv_podcasts_log_file', false);
+
+                if ($log) {
+                    $entry = $this->get_log_entry(
+                        $xv_post_id,
+                        get_query_var(XV_PODCAST_FILENAME),
+                        $enclosure['url']
+                    );
+
+                    $entry = apply_filters('xv_podcasts_log_fields', $entry);
+
+                    file_put_contents($log, json_encode($entry) . "\n", FILE_APPEND | LOCK_EX);
+                }
+
+                header("Location: " . $enclosure['url'], TRUE, 302);
+                exit;
+            }
+
+            $query->set_404();
+            status_header(404);
+            return;
+        }
+    }
+
+    private function get_log_entry($id, $filename, $url)
+    {
+        $date = new DateTime();
+        return [
+            'timestamp' => $date->format("y:m:d h:i:s"),
+            'podcast_id' => $id,
+            'podcast_filename' => $filename,
+            'podcast_url' => $url,
+            'request' => $_SERVER['REQUEST_URI']
+        ];
+    }
+
+    public function filter_site_upload_size_limit($size)
+    {
         // 100 MB.
-	$newSize = 100 * 1024 * 1024;
-        if($size<$newSize) {
+        $newSize = 100 * 1024 * 1024;
+        if ($size < $newSize) {
             return $newSize;
-	}
-	return $size;
+        }
+        return $size;
     }
 
     public function register_custom_post_type()
     {
         $this->register_podcast_post_type();
-    }
-
-    public function register_custom_taxonomies()
-    {
-        $this->register_podcast_programa();
-    }
-
-    public function validate_dependencies() {
-        if ( is_admin() && (!function_exists('get_field') || !class_exists('Timber'))) {
-            add_action( 'admin_notices', array( $this, 'show_missing_dependencies_message' ));
-        }
-    }
-
-    function show_missing_dependencies_message(){
-        ?><div class="error"><p><?php
-        echo __('Sorry, XV Podcasts requires AdvancedCustomFields and Timber Library', 'xv-podcasts');
-        ?></p></div><?php
-    }
-
-    public function load_acf_fields( $paths ) {
-        $paths[] = XV_PODCASTS_PATH . 'conf/';
-
-        return $paths;
-    }
-
-    public function custom_columns($column, $post_id)
-    {
-        switch ($column) {
-            case 'episode':
-                echo esc_url(get_post_meta($post_id, 'episode', true));
-                break;
-
-            case 'season':
-                echo esc_url(get_post_meta($post_id, 'season', true));
-                break;
-
-            default:
-                return;
-        }
-    }
-
-    public function add_columns_to_admin($columns)
-    {
-
-        return array_merge(
-            $columns,
-            array(
-                'episode' => __('Episode', 'xv-podcasts'),
-                'season' => __('Season', 'xv-podcasts'),
-            )
-        );
     }
 
     private function register_podcast_post_type()
@@ -132,44 +160,7 @@ class XVPodcastContentType
         );
 
         register_post_type('podcast', $args);
-        add_filter('post_type_link', array( $this, 'podcast_programa_link'), 10, 2);
-    }
-
-    private function register_podcast_programa()
-    {
-        $labels = $this->get_taxonomy_labels(
-            __('Podcasts programs', 'xv-podcasts'),
-            __('Podcast program', 'xv-podcasts'),
-            __('Podcast program', 'xv-podcasts')
-        );
-
-        $args = array(
-            'labels' => $labels,
-            'hierarchical' => true,
-            'public' => true,
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'show_in_nav_menus' => true,
-            'show_tagcloud' => true,
-            'rewrite' => array(
-                'slug' => 'podcasts',
-                'with_front' => false
-            ),
-            'show_in_rest' => false,
-        );
-        register_taxonomy('podcast-programa', array('podcast'), $args);
-    }
-
-    function podcast_programa_link($post_link, $id = 0)
-    {
-        $post = get_post($id);
-        if (is_object($post)) {
-            $terms = wp_get_object_terms($post->ID, 'podcast-programa');
-            if ($terms) {
-                return str_replace('%podcast-programa%', $terms[0]->slug, $post_link);
-            }
-        }
-        return $post_link;
+        add_filter('post_type_link', array($this, 'podcast_programa_link'), 10, 2);
     }
 
     protected function get_ctp_labels($menu)
@@ -206,6 +197,36 @@ class XVPodcastContentType
 
     }
 
+    public function register_custom_taxonomies()
+    {
+        $this->register_podcast_programa();
+    }
+
+    private function register_podcast_programa()
+    {
+        $labels = $this->get_taxonomy_labels(
+            __('Podcasts programs', 'xv-podcasts'),
+            __('Podcast program', 'xv-podcasts'),
+            __('Podcast program', 'xv-podcasts')
+        );
+
+        $args = array(
+            'labels' => $labels,
+            'hierarchical' => true,
+            'public' => true,
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'show_in_nav_menus' => true,
+            'show_tagcloud' => true,
+            'rewrite' => array(
+                'slug' => 'podcasts',
+                'with_front' => false
+            ),
+            'show_in_rest' => false,
+        );
+        register_taxonomy('podcast-programa', array('podcast'), $args);
+    }
+
     protected function get_taxonomy_labels($plural, $singular, $menu)
     {
         return array(
@@ -230,5 +251,67 @@ class XVPodcastContentType
             'items_list' => __('Items list', 'xv-podcasts'),
             'items_list_navigation' => __('Items list navigation', 'xv-podcasts'),
         );
+    }
+
+    public function validate_dependencies()
+    {
+        if (is_admin() && (!function_exists('get_field') || !class_exists('Timber'))) {
+            add_action('admin_notices', array($this, 'show_missing_dependencies_message'));
+        }
+    }
+
+    function show_missing_dependencies_message()
+    {
+        ?>
+        <div class="error"><p><?php
+            echo __('Sorry, XV Podcasts requires AdvancedCustomFields and Timber Library', 'xv-podcasts');
+            ?></p></div><?php
+    }
+
+    public function load_acf_fields($paths)
+    {
+        $paths[] = XV_PODCASTS_PATH . 'conf/';
+
+        return $paths;
+    }
+
+    public function custom_columns($column, $post_id)
+    {
+        switch ($column) {
+            case 'episode':
+                echo esc_url(get_post_meta($post_id, 'episode', true));
+                break;
+
+            case 'season':
+                echo esc_url(get_post_meta($post_id, 'season', true));
+                break;
+
+            default:
+                return;
+        }
+    }
+
+    public function add_columns_to_admin($columns)
+    {
+
+        return array_merge(
+            $columns,
+            array(
+                'episode' => __('Episode', 'xv-podcasts'),
+                'season' => __('Season', 'xv-podcasts'),
+            )
+        );
+    }
+
+    function podcast_programa_link($post_link, $id = 0)
+    {
+        $post = get_post($id);
+        if (is_object($post)) {
+            $terms = wp_get_object_terms($post->ID, 'podcast-programa');
+            if ($terms) {
+                return str_replace('%podcast-programa%', $terms[0]->slug, $post_link);
+            }
+        }
+        return $post_link;
     }
 }
