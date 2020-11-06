@@ -9,7 +9,7 @@ include(XV_PODCASTS_PATH . 'src/class.podcast-model.php');
  *
  * Enables and renders podcast feeds
  */
-class PodcastFeed
+class XVPodcastFeed
 {
     public function __construct()
     {

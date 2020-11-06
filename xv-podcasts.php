@@ -20,4 +20,4 @@ include( XV_PODCASTS_PATH . 'src/class.podcast-feed.php' );
 @ini_set( 'max_execution_time', '300' );
 
 new XVPodcastContentType();
-new PodcastFeed();
+new XVPodcastFeed();

@@ -3,7 +3,7 @@ Contributors: xavivars
 Donate link: https://xavi.ivars.me/
 Tags: podcasts
 Requires at least: 5.1
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 7.3
 Stable tag: 1.0
 License: GPLv2 or later
