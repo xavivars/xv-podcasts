@@ -30,7 +30,7 @@ class XVPodcastFeed
             exit;
         }
 
-        $term = new TimberTerm();
+        $term = Timber::get_term();
         $model = new XVPodcastModel(get_query_var('podcast-programa'), $term);
 
         if (!$model->valid()) {

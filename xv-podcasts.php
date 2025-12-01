@@ -3,7 +3,7 @@
 Plugin Name: XV Podcasts
 Plugin URI: https://xavi.ivars.me/en/code/wordpress-plugins/xv-podcasts
 Description: A very simple podcast plugin
-Version: 1.0
+Version: 2.0
 Author: Xavi Ivars
 Author URI: https://xavi.ivars.me
 License: A "Slug" license name e.g. GPL2
